@@ -3,6 +3,7 @@ Solutions to some of the most interesting problems from course How To Code: Comp
 https://www.edx.org/course/how-code-complex-data-ubcx-htc2x
 
 Language: Racket Lisp/Scheme
+
 Approaches: Systematic Program Design, Test-driven development, Functional programming
 
 Data structures: 
