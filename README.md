@@ -1,2 +1,8 @@
-# how-to-code-complex-data
-Solutions to problems for Complex Data Structures (Language: Racket Lisp/Scheme)
+# How to code: Complex Data
+Solutions to problems for Complex Data Structures from course How To Code: Complex Data (UBCx)
+
+(Language: Racket Lisp/Scheme)
+
+Arbitrary Arity Trees
+
+Graphs
