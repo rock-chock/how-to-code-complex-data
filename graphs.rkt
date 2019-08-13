@@ -1,7 +1,4 @@
-
-;; graphs-v4.rkt
-
-; 
+;
 ; PROBLEM: 
 ; 
 ; Imagine you are suddenly transported into a mysterious house, in which all
@@ -10,18 +7,15 @@
 ; the doors only go in one direction. You can't see the doors that lead into
 ; the room.
 ;
-; 
 ; In computer science, we refer to such an information structure as a directed
 ; graph. Like trees, in directed graphs the arrows have direction. But in a
 ; graph it is  possible to go in circles, as in the second example above. It
 ; is also possible for two arrows to lead into a single node, as in the fourth
 ; example.
 ;
-;
 ; Design a data definition to represent such houses. Also provide example data
 ; for the four houses above.
 ; 
-
 
 (define-struct room (name exits))
 ;; Room is (make-room String (listof Room))
@@ -47,6 +41,19 @@
            (-E- (make-room "E" (list -F- -A-)))
            (-F- (make-room "F" (list))))
     -A-))
+    
+(define H5 (shared ((-A- (make-room "A" (list -B-)))
+                    (-B- (make-room "B" (list -C- -E-)))
+                    (-C- (make-room "C" (list -B-)))
+                    (-E- (make-room "E" (list -F- -A- -D-)))
+                    (-D- (make-room "D" (list -E-)))
+                    (-F- (make-room "F" (list))))
+             -A-))
+
+(define H6 (shared ((-A- (make-room "A" (list -B- -C-)))
+                    (-B- (make-room "B" (list -C-)))
+                    (-C- (make-room "C" (list -A-))))
+             -A-))
 
 ;; template:
 ;;  tail recursive encapsulate w/ local, worklist, context-preserving
@@ -71,6 +78,13 @@
     (fn-for-room r0 empty empty))) 
 
 
+; 
+; PROBLEM: 
+; 
+; Design a function that consumes a Room and a room name, and produces true if it is possible
+; to reach a room with the given name starting at the given room.
+;
+
 ;; Room String -> Boolean
 ;; produce true if starting at r0 it is possible to reach a room named rn
 (check-expect (reachable? H1 "A") true)
@@ -78,10 +92,6 @@
 (check-expect (reachable? H1 "C") false)
 (check-expect (reachable? (first (room-exits H1)) "A") false)
 (check-expect (reachable? H4 "F") true)
-
-;(define (reachable? r0 rn) false) ;stub
-
-;; template: Room (graph)
 
 (define (reachable? r0 rn)
   ;; todo is (listof Room); a worklist accumulator
@@ -103,7 +113,12 @@
     (fn-for-room r0 empty empty))) 
 
 
-
+; 
+; PROBLEM: 
+; 
+; Design a function that consumes a room and produces a list
+; of athe total number of rooms reachable from the given room, including the room itself
+;
 
 ;; Room -> Natural
 ;; produce the total number of rooms reachable from a given room, including the room itself
@@ -133,6 +148,13 @@
 
 
 
+; 
+; PROBLEM: 
+; 
+; Design a function that consumes a room and produces a list
+; of names of all the rooms reachable from the given room
+;
+
 ;; Room -> (listof String)
 ;; Given a room, produces a list of the names of all the reachable  rooms
 (check-expect (reachable-rooms H1) (list "A" "B"))
@@ -140,9 +162,7 @@
 (check-expect (reachable-rooms H2) (list "A" "B"))
 (check-expect (reachable-rooms H3) (list "A" "B" "C"))
 (check-expect (reachable-rooms (first (room-exits H3))) (list "B" "C" "A"))
-
-(check-expect (reachable-rooms H4) (list "A" "B" "C" "E" "F" "D")) ;; ???
-
+(check-expect (reachable-rooms H4) (list "A" "B" "C" "E" "F" "D")) 
 
 (define (reachable-rooms r0)
   ;; todo is (listof Room); a worklist accumulator
@@ -161,6 +181,13 @@
     (fn-for-room r0 empty empty)))
 
 
+
+; 
+; PROBLEM: 
+; 
+; Design a function that consumes a room and produces a list
+; of all the rooms reachable from the given room 
+;
 
 ;; Room -> (listof Room)
 ;; Produces a list of all the reachable rooms
@@ -203,6 +230,7 @@
     (fn-for-room r0 empty empty empty)))
 
 
+
 ; 
 ; PROBLEM:
 ; 
@@ -210,8 +238,6 @@
 ; the total number of rooms reachable from the given room. Include the starting room itself. 
 ; Your function should be tail recursive, but you should not use the primitive length function.
 ; 
-
-
 
 ;; Room -> Natural
 ;; Produce number of reachable rooms 
@@ -222,9 +248,6 @@
 (check-expect (count-rooms (first (room-exits H3))) 3)
 (check-expect (count-rooms H4) 6)
 (check-expect (count-rooms (first (room-exits H4))) 6)
-
-;(define (count-rooms r0) 0) ;stub
-
 
 (define (count-rooms r0)
   ;; todo is (listof Room); a worklist accumulator
@@ -269,8 +292,6 @@
                        (-F- (make-room "F" (list))))
                 -B-))
 
-;(define (lookup-room r0 "") (make-room "A" (list))) ;stub
-
 (define (lookup-room r0 s)
   ;; todo is (listof Room); a worklist accumulator
   ;; visited is (listof String); context preserving accumulator, names of rooms already visited
@@ -289,7 +310,8 @@
                                 visited)]))]
     
     (fn-for-room r0 empty empty)))
-    
+   
+   
 
 ; 
 ; PROBLEM:
@@ -297,7 +319,6 @@
 ; Using the following data definition, design a function that produces the room with the most exits 
 ; (in the case of a tie you can produce any of the rooms in the tie).
 ; 
-
 
 ;; Room -> Room
 ;; produce a room with the most exits
@@ -321,13 +342,6 @@
                        (-E- (make-room "E" (list -F- -A-)))
                        (-F- (make-room "F" (list))))
                 -B-))
-(define H5 (shared ((-A- (make-room "A" (list -B-)))
-                    (-B- (make-room "B" (list -C- -E-)))
-                    (-C- (make-room "C" (list -B-)))
-                    (-E- (make-room "E" (list -F- -A- -D-)))
-                    (-D- (make-room "D" (list -E-)))
-                    (-F- (make-room "F" (list))))
-             -A-))
 (check-expect (max-exits-from H5)
               (shared ((-A- (make-room "A" (list -B-)))
                     (-B- (make-room "B" (list -C- -E-)))
@@ -336,8 +350,6 @@
                     (-D- (make-room "D" (list -E-)))
                     (-F- (make-room "F" (list))))
              -E-))
-
-;(define (max-exits-from r0) (make-room "A" (list))) ;stub
 
 (define (max-exits-from r0)
   ;; todo is (listof Room); a worklist accumulator
@@ -374,7 +386,6 @@
 ; number of other rooms have exits (in the case of a tie you can produce any of the rooms in the tie).
 ; 
 
-
 ;; Room -> Room
 ;; Produce the room which has more arrows (the most frequently met in room-exits) from other rooms
 ;; If 2 rooms have equal amount of arrows, produce any
@@ -395,12 +406,6 @@
                        (-E- (make-room "E" (list -F- -A-)))
                        (-F- (make-room "F" (list))))
                 -B-))
-
-(define H6 (shared ((-A- (make-room "A" (list -B- -C-)))
-                    (-B- (make-room "B" (list -C-)))
-                    (-C- (make-room "C" (list -A-))))
-             -A-))
-
 (check-expect (max-exits-to H6)
               (shared ((-A- (make-room "A" (list -B- -C-)))
                        (-B- (make-room "B" (list -C-)))
