@@ -12,7 +12,7 @@ Data structures:
 * Arbitrary Arity Trees
 * Graphs
 
-Principles, techniques and concepts
+Principles, techniques and concepts:
 * Refactoring, encapsulation, abstraction
 * Natural recursion, Natural Mutual recursion, Generative recursion, Tail recursion 
 * Backtracking search, depth-first and breadth-first search
