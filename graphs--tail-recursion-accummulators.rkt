@@ -405,7 +405,7 @@
                        (-D- (make-room "D" (list -E-)))
                        (-E- (make-room "E" (list -F- -A-)))
                        (-F- (make-room "F" (list))))
-                -B-))
+                -E-))
 (check-expect (max-exits-to H6)
               (shared ((-A- (make-room "A" (list -B- -C-)))
                        (-B- (make-room "B" (list -C-)))
@@ -423,9 +423,7 @@
           ;; lorc is (list of RC); a result-so-far accumulator
           (define (fn-for-room r todo visited lorc)
             (if (member (room-name r) visited)
-                (fn-for-lor todo
-                            visited
-                            (update lorc (room-exits r)))   ; -> (list of RC)
+                (fn-for-lor todo visited lorc (room-exits r))
                 (fn-for-lor (append (room-exits r) todo)
                             (cons (room-name r) visited)
                             (update lorc (room-exits r))))) ; -> (list of RC)
