@@ -1,5 +1,5 @@
 # How to code: Complex Data
-Solutions to some of the most interesting problems from course How To Code: Complex Data (UBCx)
+Solutions to some of the most interesting problems from course How To Code: Complex Data (University of British Columbia)
 https://www.edx.org/course/how-code-complex-data-ubcx-htc2x
 
 Language: Racket Lisp/Scheme
